@@ -9,10 +9,11 @@ https://isaychris.github.io/react-redux-weather
 * Current forecast / conditions
 * 7 day forecast
 * C / F unit toggle
-* Current location finder
+* Current location
+* Live clock
 * Animated weather icons
 * Responsive Design
 * Darksky weather API
 * Google geolocator API
 
-![Image](https://i.imgur.com/z8CukPn.png)
+![Image](https://i.imgur.com/pakhqI5.png)
