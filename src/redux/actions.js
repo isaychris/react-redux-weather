@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export const toggle_unit = () => ({
-    type: "TOGGLE_UNIT"
+export const toggleMode = (unit) => ({
+    type: "TOGGLE_MODE",
+    mode: unit
 })
 
 export const fetchWeather = (location) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import Skycons from 'react-skycons'
 import Clock from 'react-live-clock';
 
@@ -54,4 +55,9 @@ const Current = (props) => {
     );
 }
 
-export default Current;
+const mapStateToProps = (state) => ({
+    data: state.data, 
+    mode: state.mode,
+});
+
+export default connect(mapStateToProps, null)(Current)

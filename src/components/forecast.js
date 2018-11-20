@@ -1,5 +1,6 @@
 import React from 'react';
 import Skycons from 'react-skycons'
+import {connect} from 'react-redux';
 
 const Forecast = (props) => {
     const convert = (F) => {
@@ -38,6 +39,11 @@ const Forecast = (props) => {
             </div>
         </div>
     );
-  }
+}
 
-export default Forecast;
+const mapStateToProps = (state) => ({
+    data: state.data, 
+    mode: state.mode,
+});
+
+export default connect(mapStateToProps, null)(Forecast)

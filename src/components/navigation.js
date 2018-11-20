@@ -1,6 +1,12 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../redux/actions'
 
 const Navigation = (props) => {
+    const handleToggle = (e) => {
+        props.toggleMode(e.target.id)
+    }
+
     return(
         <nav className="navbar navbar-dark bg-dark">
             <div className="navbar-brand">
@@ -12,10 +18,10 @@ const Navigation = (props) => {
             <div className="navbar-end">
                 <div className="navbar-item">
                     <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label id="F" onClick={props.handleToggle} className="btn btn-primary active">
+                    <label id="F" onClick={handleToggle} className="btn btn-primary active">
                         <input type="radio" name="options" id="option1" />°F
                     </label>
-                    <label id="C" onClick={props.handleToggle} className="btn btn-primary">
+                    <label id="C" onClick={handleToggle} className="btn btn-primary">
                         <input type="radio" name="options" id="option2" />°C
                     </label>
                     </div>
@@ -25,4 +31,8 @@ const Navigation = (props) => {
     )
 }
 
-export default Navigation
+const mapDispatchToProps = (dispatch) => ({
+    toggleMode: (unit) => dispatch(actions.toggleMode(unit))
+})
+
+export default connect(null, mapDispatchToProps)(Navigation)
