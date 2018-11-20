@@ -6,6 +6,7 @@ const Forecast = (props) => {
         return Math.round((F -32) * 5/9)
     }
 
+    
     const forecastlist = props.data.daily.data.map((obj, index) => {
         if(index < 7) {
             let day = new Date(obj.time * 1000).getUTCDay()
@@ -17,7 +18,7 @@ const Forecast = (props) => {
                     <section>
                         {week[day]} <br/>
                         <Skycons width="128" height="128"style={{width: '100%', height: 'auto', maxWidth: '150px'}} color='black' icon={icon} autoplay={true} />
-                        {props.mode === "F" ? obj.temperatureMax + " °F": convert(obj.temperatureMax) + " °C"}
+                        {props.mode === "F" ? Math.round(obj.temperatureMax) + " °F": convert(obj.temperatureMax) + " °C"}
                     </section>
                 </div>
             ) 
@@ -29,7 +30,7 @@ const Forecast = (props) => {
     return (
         <div className="forecast card border my-3">
             <div className="card-header"><h4>7 Day Forecast</h4></div>
-                <div class="card-body text-secondary">
+                <div className="card-body text-secondary">
                     <div className="row seven-cols">
                     {forecastlist}
                     </div>

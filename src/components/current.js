@@ -1,5 +1,6 @@
 import React from 'react';
 import Skycons from 'react-skycons'
+import Clock from 'react-live-clock';
 
 const Current = (props) => {
     const convert = (F) => {
@@ -19,12 +20,14 @@ const Current = (props) => {
                         <ul className="list-group">
                             <li className="list-group-item">{props.data.timezone}</li>
                             <li className="list-group-item">{props.mode === "F"
-                                    ? props.data.currently.temperature + " °F"
-                                    : convert(props.data.currently.temperature) + " °C"}</li>
+                                    ?  Math.round(props.data.currently.apparentTemperature) + " °F"
+                                    : convert(props.data.currently.apparentTemperature) + " °C"}</li>
                             <li className="list-group-item">{props.data.currently.summary}</li>
                         </ul>
                     </div>
                     <div className="col-md-4">
+                        <div className="current-weather">
+                        <Clock format={'h:mm:ss A'} ticking={true} timezone={props.data.timezone} />
                         <Skycons
                             width='128'
                             height='128'
@@ -35,11 +38,12 @@ const Current = (props) => {
                             color='black'
                             icon={icon}
                             autoplay={true}/>
+                            </div>
                     </div>
                     <div className="col-md-4">
                         <ul className="list-group">
-                            <li className="list-group-item">Humidity: {props.data.currently.humidity + "%"}</li>
-                            <li className="list-group-item">Percepitation: {props.data.currently.precipProbability + "%"}</li>
+                            <li className="list-group-item">Humidity: {Math.round(props.data.currently.humidity * 100) + "%"}</li>
+                            <li className="list-group-item">Precipitation: {Math.round(props.data.currently.precipProbability * 100) + "%"}</li>
                             <li className="list-group-item">Wind: {props.data.currently.humidity + " mph"}</li>
                         </ul>
                     </div>

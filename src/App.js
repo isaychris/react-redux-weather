@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import Forecast from './components/forecast'
 import Current from './components/current'
 import Navigation from './components/navigation'
+import Search from './components/search'
+
 import * as actions from './redux/actions'
 import './App.css';
 
@@ -10,17 +12,15 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            input: "",
+            input: undefined,
+            prev: undefined,
+            current: false,
             mode: "F"
         }
     }
 
     componentDidMount = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.props.fetchWeather(`${position.coords.latitude}, ${position.coords.longitude}`)
-            });
-        }
+        this.handleGeolocator()
     }
 
     handleChange = (e) => {
@@ -29,11 +29,26 @@ class App extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.fetchWeather(this.state.input)
+
+        if(this.state.input !== this.state.prev) {
+            this.props.fetchWeather(this.state.input)
+            this.setState({current: false, prev: this.state.input})
+        }
     }
 
     handleToggle = (e) => {
         this.setState({mode: e.target.id})
+    }
+
+    handleGeolocator = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                if(!this.state.current) {
+                    this.props.fetchWeather(`${position.coords.latitude}, ${position.coords.longitude}`)
+                    this.setState({current: true})
+                }
+            });
+        }
     }
 
     render() {
@@ -41,19 +56,12 @@ class App extends Component {
             <div className="App">
                 <Navigation handleToggle={this.handleToggle}/>
                 <div className="container">
-                    <form className="my-3" onSubmit={this.handleSubmit}>
-                        <div className="input-group">
-                            <input
-                                className="form-control  border-primary"
-                                onChange={this.handleChange}
-                                value={this.state.input}
-                                placeholder="Enter a location"
-                                required />
-                            <div className="input-group-append">
-                                <button className="btn btn-primary" type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
+                    <Search 
+                        handleGeolocator={this.handleGeolocator}
+                        handleSubmit={this.handleSubmit}
+                        handleChange={this.handleChange}
+                        input={this.state.input}
+                    />
 
                     {this.props.isFetching && 
                         (<div className="alert alert-primary" role="alert">
@@ -67,11 +75,11 @@ class App extends Component {
                         </div>)
                     }
 
-                    <div className="error-message">
-                        {this.props.error && <div className="alert alert-danger" role="alert">
-                            Unable to find location. Try Again.
-                            </div>}
-                    </div>
+                    {this.props.error && 
+                        (<div className="alert alert-danger" role="alert">
+                        Unable to find location. Try Again.
+                        </div>)
+                    }
 
                     {this.props.isLoaded && (
                         <div>
