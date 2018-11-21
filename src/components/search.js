@@ -14,7 +14,7 @@ class Search extends Component {
     }
 
     componentDidMount = () => {
-        this.handleGeolocator()
+        this.props.fetchWeather(`Los Angeles, CA, USA`)
     }
 
     handleChange = (e) => {
@@ -58,7 +58,7 @@ class Search extends Component {
                     </div>
                 </form>
                 <div>
-                    <button className="btn btn-success ml-3" type="text" onClick={this.handleGeolocator}><i className="fas fa-location-arrow"></i></button>
+                    <button title="Current location" className="btn btn-success ml-3" type="text" onClick={this.handleGeolocator}><i className="fas fa-location-arrow"></i></button>
                 </div>
             </div>
         )
